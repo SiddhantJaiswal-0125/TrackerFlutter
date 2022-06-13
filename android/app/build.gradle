@@ -44,8 +44,7 @@ android {
         Properties properties = new Properties()
 
         properties.load(project.rootProject.file('local.properties').newDataInputStream())
-        manifestPlaceholders = [MAPS_API_KEY: "${properties.getProperty('AIzaSyCOAKrykVXB3s8GNN8k6wiay1jxKTWlqQM')}"]
-
+        manifestPlaceholders = [MAPS_API_KEY: "${properties.getProperty('AIzaSyCden24T9uF_frcoTmQEhjfg3LKLsK99bw')}"]
     }
 
     buildTypes {

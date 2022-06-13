@@ -1,5 +1,6 @@
 import 'dart:async';
 
+// AIzaSyCOAKrykVXB3s8GNN8k6wiay1jxKTWlqQM
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final loc.Location location = loc.Location();
   StreamSubscription<loc.LocationData>? _locationSubscription;
+  bool startSelected = false;
+  bool stopSelected = false;
 
   @override
   void initState() {
@@ -36,62 +39,104 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('live location tracker'),
+        backgroundColor: Colors.black,
+        title: Text(
+          'Track Us 📍',
+          style: TextStyle(fontSize: 25),
+        ),
       ),
       body: Column(
         children: [
-          TextButton(
-              onPressed: () {
-                _getLocation();
-              },
-              child: Text('add my location')),
-          TextButton(
-              onPressed: () {
-                _listenLocation();
-              },
-              child: Text('enable live location')),
-          TextButton(
-              onPressed: () {
-                _stopListening();
-              },
-              child: Text('stop live location')),
+          SizedBox(height: 20,),
+          Row(
+            children: [
+              SizedBox(
+                width: 20,
+              ),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: startSelected ? Colors.grey:Colors.green,
+                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      textStyle: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold)),
+                  onPressed: () {
+                    if(startSelected==false)
+                      {
+                        _listenLocation();
+                        startSelected = true;
+                        stopSelected = false;
+                        setState(() {});
+                      }
+
+
+                  },
+                  child: Text('Start Live location')),
+              SizedBox(
+                width: 30,
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: stopSelected ?Colors.grey: Colors.red ,
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    textStyle: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold)),
+                onPressed: () {
+
+                  if(stopSelected == false)
+                    {
+                      _stopListening();
+                      stopSelected = true;
+                      startSelected = false;
+                      setState(() {});
+                    }
+
+                },
+                child: Text('Stop Live location'),
+              ),
+            ],
+          ),
+          SizedBox(height: 10,),
+          Divider(height: 10, thickness: 0.9, color: Colors.grey,),
           Expanded(
               child: StreamBuilder(
-                stream:
+            stream:
                 FirebaseFirestore.instance.collection('location').snapshots(),
-                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                  return ListView.builder(
-                      itemCount: snapshot.data?.docs.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title:
-                          Text(snapshot.data!.docs[index]['name'].toString()),
-                          subtitle: Row(
-                            children: [
-                              Text(snapshot.data!.docs[index]['latitude']
-                                  .toString()),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Text(snapshot.data!.docs[index]['longitude']
-                                  .toString()),
-                            ],
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (!snapshot.hasData) {
+                return Center(child: CircularProgressIndicator());
+              }
+              return ListView.builder(
+                  itemCount: snapshot.data?.docs.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text( "Name : "+snapshot.data!.docs[index]['name'].toString(), style: TextStyle(color: Colors.black,
+                              fontSize: 15,fontWeight: FontWeight.w700),),
+                          Text("Latitude : "+snapshot.data!.docs[index]['latitude']
+                              .toString()),
+                          SizedBox(
+                            width: 20,
                           ),
-                          trailing: IconButton(
-                            icon: Icon(Icons.directions),
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      MyMap(snapshot.data!.docs[index].id)));
-                            },
-                          ),
-                        );
-                      });
-                },
-              )),
+                          Text("Longitude : "+snapshot.data!.docs[index]['longitude']
+                              .toString()),
+                        ],
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(Icons.directions,color:Colors.teal),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  MyMap(snapshot.data!.docs[index].id)));
+                        },
+                      ),
+                    );
+                  });
+            },
+          )),
         ],
       ),
     );
@@ -103,7 +148,7 @@ class _MyAppState extends State<MyApp> {
       await FirebaseFirestore.instance.collection('location').doc('user1').set({
         'latitude': _locationResult.latitude,
         'longitude': _locationResult.longitude,
-        'name': 'john'
+        'name': 'Siddhant Jaiswal'
       }, SetOptions(merge: true));
     } catch (e) {
       print(e);
@@ -121,7 +166,7 @@ class _MyAppState extends State<MyApp> {
       await FirebaseFirestore.instance.collection('location').doc('user1').set({
         'latitude': currentlocation.latitude,
         'longitude': currentlocation.longitude,
-        'name': 'john'
+        'name': 'Siddhant Jaiswal'
       }, SetOptions(merge: true));
     });
   }
