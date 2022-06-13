@@ -8,8 +8,8 @@
    <application
         android:label="livetracker"
         android:icon="@mipmap/ic_launcher">
-       <meta-data android:name="com.google.android.geo.AIzaSyCden24T9uF_frcoTmQEhjfg3LKLsK99bw"
-           android:value="AIzaSyCden24T9uF_frcoTmQEhjfg3LKLsK99bw"/>
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="API_KEY"/>
 
         <activity
             android:name=".MainActivity"

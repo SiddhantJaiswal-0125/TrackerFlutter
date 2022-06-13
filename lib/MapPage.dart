@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as loc;
 
-// AIzaSyCden24T9uF_frcoTmQEhjfg3LKLsK99bw
+
 class MyMap extends StatefulWidget {
   final String user_id;
   MyMap(this.user_id);

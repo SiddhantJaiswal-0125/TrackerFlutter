@@ -13,7 +13,9 @@ import 'MapPage.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MaterialApp(home: MyApp()));
+  runApp(MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -25,7 +27,7 @@ class _MyAppState extends State<MyApp> {
   final loc.Location location = loc.Location();
   StreamSubscription<loc.LocationData>? _locationSubscription;
   bool startSelected = false;
-  bool stopSelected = false;
+  bool stopSelected = true;
 
   @override
   void initState() {
