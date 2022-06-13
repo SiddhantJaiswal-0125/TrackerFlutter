@@ -144,6 +144,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
+  //this function will update the location in Database.
   _getLocation() async {
     try {
       final loc.LocationData _locationResult = await location.getLocation();
@@ -157,6 +158,8 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+
+  //This Functionn will be a Stream Listener whenever there will be a change in Location
   Future<void> _listenLocation() async {
     _locationSubscription = location.onLocationChanged.handleError((onError) {
       print(onError);
@@ -173,6 +176,8 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+
+  //End Subsciption of listening to location change.
   _stopListening() {
     _locationSubscription?.cancel();
     setState(() {
@@ -180,6 +185,8 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+
+  //Permission Request for Location
   _requestPermission() async {
     var status = await Permission.location.request();
     if (status.isGranted) {
