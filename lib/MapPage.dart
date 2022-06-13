@@ -13,6 +13,7 @@ class MyMap extends StatefulWidget {
 
 class _MyMapState extends State<MyMap> {
   final loc.Location location = loc.Location();
+
   late GoogleMapController _controller;
   bool _added = false;
   @override
@@ -62,6 +63,8 @@ class _MyMapState extends State<MyMap> {
         ));
   }
 
+
+  //this will update the map as per Location Data
   Future<void> mymap(AsyncSnapshot<QuerySnapshot> snapshot) async {
     await _controller
         .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
