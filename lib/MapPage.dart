@@ -17,7 +17,7 @@ class _MyMapState extends State<MyMap> {
 
   late GoogleMapController _controller;
   bool _added = false;
-
+  
   @override
   Widget build(BuildContext context) {
     print("MAP PAGE OPENEDDD");
